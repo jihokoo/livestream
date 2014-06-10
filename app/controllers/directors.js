@@ -30,7 +30,7 @@ exports.showAll = function(req, res){
 };
 
 exports.update = function(req, res){
-	var livestream_id = req.body.livestream_id;
+	var livestream_id = req.params.livestream_id;
 	var favorite_camera = req.body.favorite_camera;
 	var favorite_movie = req.body.favorite_movie;
 	if(livestream_id){
@@ -56,25 +56,31 @@ exports.update = function(req, res){
 
 exports.create = function(req, res){
 	var livestream_id = req.body.livestream_id;
+	var favorite_camera = req.body.favorite_camera;
+	var favorite_movie = req.body.favorite_movie;
 	var newDirector;
 	if(req.body.livestream_id){
 		request.get('https://api.new.livestream.com/accounts/'+livestream_id, function(a, b, c){
 			var response = JSON.parse(c);
 			Director.findOne({
-				livestream_id: livestream_id,
-				full_name: response.full_name,
-				dob: response.dob
+				livestream_id: livestream_id
 			}, function(err, director){
 				if(director){
 					res.jsonp({'name': 'BadRequestError', 'message': 'there already exists an account with the provided livestream_id'});
 				} else{
-					newDirector = new Director({livestream_id: livestream_id});
+					newDirector = new Director({
+						livestream_id: livestream_id,
+						full_name: response.full_name,
+						dob: response.dob,
+						favorite_movie: favorite_movie,
+						favorite_camera: favorite_camera
+					});
 					newDirector.save(function(err, director){
 						res.jsonp(director);
 					});
 				}
 			});
-		})
+		});
 	} else{
 		res.jsonp({'name': 'BadRequestError', 'message': 'a livestream_id must be provided in the body of the request'});
 	}
