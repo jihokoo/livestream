@@ -93,6 +93,11 @@ exports.create = function(req, res){
 		Director.findOne({
 			livestream_id: livestream_id
 		}, function(err, director){
+			// in case of error
+			if(err){
+				res.json(500, JSON.stringify({'name': 'BadRequestError', 'message': err.message}));
+			}
+
 			// checking if director account with the specified livestream_id already exists
 			if(director){
 				res.json(500, JSON.stringify({'name': 'BadRequestError', 'message': 'there already exists an account with the provided livestream_id', 'body': director}));
