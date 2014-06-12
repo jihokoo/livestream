@@ -67,7 +67,7 @@ exports.update = function(req, res){
 				}
 				// set values if favorite_movies and favorite_camera fields exist
 				if(favorite_movies){
-					director.favorite_movies = favorite_movies;
+					director.favorite_movies.push(favorite_movies);
 				}
 				if(favorite_camera){
 					director.favorite_camera = favorite_camera;

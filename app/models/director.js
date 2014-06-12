@@ -31,7 +31,7 @@ var directorSchema = new Schema({
 		required: true
 	},
 	favorite_camera: String,
-	favorite_movies: {type: [String], get: join}
+	favorite_movies: [String]
 }, { autoIndex: false });
 
 directorSchema.methods = {
