@@ -30,7 +30,7 @@ exports.showAll = function(req, res){
 	});
 };
 
-exports.update = function(req, res)
+exports.update = function(req, res){
 	// Pulling out the md5 hashed full_name from the header
 	var header = req.headers['authorization']||'',
     token = header.split(/\s+/).pop()||'';        
@@ -62,8 +62,6 @@ exports.update = function(req, res)
 				// from the id specified in the url
 				var name = director.full_name;
 				var hash = crypto.createHash('md5').update(name).digest('hex');
-	
-	
 				if(token !== hash){
 					res.json(500, JSON.stringify({'name': 'BadRequestError', 'message': 'incorrect authorization token'}));
 				}
@@ -97,7 +95,6 @@ exports.create = function(req, res){
 		}, function(err, director){
 			// checking if director account with the specified livestream_id already exists
 			if(director){
-	
 				res.json(500, JSON.stringify({'name': 'BadRequestError', 'message': 'there already exists an account with the provided livestream_id', 'body': director}));
 			} else{
 				request.get('https://api.new.livestream.com/accounts/'+livestream_id, function(a, b, c){
@@ -105,7 +102,6 @@ exports.create = function(req, res){
 					var newDirector;
 					// check if we get a valid response from api call
 					if(response.name === 'BadRequestError'){
-			
 						res.json(response);
 					} else{
 						newDirector = new Director({
