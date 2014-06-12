@@ -5,7 +5,7 @@
 #### Start
 
 * Make sure to have [MongoDB](http://www.mongodb.org/downloads) installed
-* Run 'mongod&' in the terminal to run database in the background
+* Run `mongod&` in the terminal to run database in the background
 * Run `npm install` to install dependencies
 * Run `npm test` to see tests execute in the terminal
 * Run `npm start` to run program on local machine without testing
